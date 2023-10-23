@@ -1,0 +1,86 @@
+#include <iostream>
+using namespace std;
+
+const int MAX_SIZE = 100;
+
+struct Element {
+    int row;
+    int col;
+    int value;
+};
+
+struct SparseMatrix {
+    int rows;
+    int cols;
+    int numNonZero;
+    Element data[MAX_SIZE];
+};
+
+SparseMatrix createSparseMatrix(int matrix[][MAX_SIZE], int rows, int cols) {
+    SparseMatrix sparseMatrix;
+    sparseMatrix.rows = rows;
+    sparseMatrix.cols = cols;
+    sparseMatrix.numNonZero = 0;
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (matrix[i][j] != 0) {
+                sparseMatrix.data[sparseMatrix.numNonZero].row = i;
+                sparseMatrix.data[sparseMatrix.numNonZero].col = j;
+                sparseMatrix.data[sparseMatrix.numNonZero].value = matrix[i][j];
+                sparseMatrix.numNonZero++;
+            }
+        }
+    }
+
+    return sparseMatrix;
+}
+
+void displaySparseMatrix(SparseMatrix sparseMatrix) {
+    for (int i = 0; i < sparseMatrix.numNonZero; i++) {
+        cout << sparseMatrix.data[i].row << " ";
+        cout << sparseMatrix.data[i].col << " ";
+        cout << sparseMatrix.data[i].value << endl;
+    }
+}
+
+
+
+
+int main() {
+    int matrix1[MAX_SIZE][MAX_SIZE];
+    int matrix2[MAX_SIZE][MAX_SIZE];
+    int rows1, cols1, rows2, cols2;
+
+    cout << "Enter the number of rows and columns of matrix 1: ";
+    cin >> rows1 >> cols1;
+
+    cout << "Enter the elements of matrix 1: " << endl;
+    for (int i = 0; i < rows1; i++) {
+        for (int j = 0; j < cols1; j++) {
+            cin >> matrix1[i][j];
+        }
+    }
+
+    cout << "Enter the number of rows and columns of matrix 2: ";
+    cin >> rows2 >> cols2;
+
+    cout << "Enter the elements of matrix 2: " << endl;
+    for (int i = 0; i < rows2; i++) {
+        for (int j = 0; j < cols2; j++) {
+            cin >> matrix2[i][j];
+        }
+    }
+
+    SparseMatrix sparseMatrix1 = createSparseMatrix(matrix1, rows1, cols1);
+    SparseMatrix sparseMatrix2 = createSparseMatrix(matrix2, rows2, cols2);
+
+    cout << "Sparse matrix 1:" << endl;
+    displaySparseMatrix(sparseMatrix1);
+
+    cout << "Sparse matrix 2:" << endl;
+    displaySparseMatrix(sparseMatrix2);
+
+
+    return 0;
+}
